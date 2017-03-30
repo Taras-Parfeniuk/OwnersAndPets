@@ -1,0 +1,31 @@
+﻿<div class="container">
+	<form name="addOwnerForm" novalidate ng-submit="ctrl.save()">
+		<div class="row">
+			<div class="col-md-4">
+				<input type="text" ng-model="ctrl.name"/>
+			</div>
+			<div class="col-md-2">
+				<button type="submit" class="btn">Add</button>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<table class="table_col">
+			<colgroup>
+				<col style="background:#C7DAF0;">
+			</colgroup>
+			<tr>
+				<th>Owner's name</th>
+				<th>Pets count</th>
+			</tr>
+			<tr ng-repeat="owner in ctrl.owners">
+				<th><a ui-sref="pets({ ownerId: owner.Id })">{{owner.Name}}</a></th>
+				<th>{{owner.PetsCount}}</th>
+				<th><div ng-click="ctrl.remove(owner)"><span class="glyphicon glyphicon-remove"></span></div></th>
+			</tr>
+		</table>
+		<ul class="pagination">
+			<li ng-repeat="page in [] | range: ctrl.pages"><a ui-sref="owners({ page: page, per_page: ctrl.page.per_page })">{{page}}</a></li>
+		</ul>
+	</div>
+</div>

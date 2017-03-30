@@ -1,0 +1,26 @@
+﻿<div class="container">
+	<form name="addPetForm" novalidate ng-submit="ctrl.save()">
+		<div class="row">
+			<div class="col-md-4">
+				<input type="text" ng-model="ctrl.name" />
+			</div>
+			<div class="col-md-2">
+				<button type="submit" class="btn">Add</button>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<table class="table_col">
+			<colgroup>
+				<col style="background:#C7DAF0;">
+			</colgroup>
+			<tr>
+				<th>Pet's name</th>
+			</tr>
+			<tr ng-repeat="pet in ctrl.pets">
+				<th>{{pet.Name}}</th>
+				<th><div ng-click="ctrl.remove(pet)"><span class="glyphicon glyphicon-remove"></span></div></th>
+			</tr>
+		</table>
+	</div>
+</div>

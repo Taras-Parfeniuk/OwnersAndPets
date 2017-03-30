@@ -1,0 +1,30 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OwnersAndPets</title>
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="~/Content/Styles/bootstrap.min.css" media="screen">
+	<link rel="stylesheet" href="~/Content/Styles/Table.css" />
+	<link rel="stylesheet" href="~/Content/Styles/Site.css">
+	<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+	<script src="~/Scripts/angular.min.js"></script>
+	<script src="~/Scripts/angular-route.min.js"></script>
+	<script src="~/Scripts/angular-resource.min.js"></script>
+	<script src="~/Scripts/angular-ui-router.min.js"></script>
+	<script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+	<script src="~/app/app.js"></script>
+	<script src="~/app/app.state.js"></script>
+	<script src="~/app/app.filter.js"></script>
+</head>
+<body ng-app="OwnersAndPetsApp">
+
+	<ui-view></ui-view>
+
+	<script src="~/app/Services/owners.resource.js"></script>
+	<script src="~/app/Services/owner-pets.resource.js"></script>
+	<script src="~/app/Controllers/owners-table.contoller.js"></script>
+	<script src="~/app/Controllers/pets-table.controller.js"></script>
+</body >
+</html >
