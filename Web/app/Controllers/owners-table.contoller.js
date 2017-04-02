@@ -10,6 +10,7 @@
 
 		ctrl.page = { id: $stateParams.page, per_page: $stateParams.per_page };
 		ctrl.owners = Owners.query({ page: ctrl.page.id, per_page: ctrl.page.per_page });
+		ctrl.pages = Owners.get({ page: ctrl.page.id, per_page: ctrl.page.per_page });
 		ctrl.save = save;
 		ctrl.remove = remove;
 
@@ -23,6 +24,7 @@
 
 		function onSuccess(result) {
 			ctrl.owners = Owners.query({ page: ctrl.page.id, per_page: ctrl.page.per_page });
+			ctrl.pages = Owners.get({ page: ctrl.page.id, per_page: ctrl.page.per_page });
 		}
 
 		function onError() {

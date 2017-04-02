@@ -23,4 +23,9 @@
 			</tr>
 		</table>
 	</div>
+	<div class="row">
+		<ul class="pagination">
+			<li ng-repeat="page in [] | range: ctrl.pages.count"><a ui-sref="pets({ ownerId: ctrl.page.ownerId, page: page, per_page: ctrl.page.per_page })">{{page}}</a></li>
+		</ul>
+	</div>
 </div>

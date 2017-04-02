@@ -16,7 +16,7 @@
 				params: {
 					page: 1,
 					per_page: 3
-				},
+				}
 			})
 			.state('pets', {
 				parrent: 'owners',
@@ -28,7 +28,7 @@
 				params: {
 					page: 1,
 					per_page: 3
-				},
+				}
 			});
 	}
 })();

@@ -7,14 +7,23 @@
 	function Pets($resource) {
 		var resourceUrl = 'api/owners/:ownerId/:petId';
 		return $resource(resourceUrl, {}, {
-			'query': { method: 'GET', isArray: true },
+			'query': {
+				method: 'GET',
+				isArray: true,
+				transformResponse: function (data) {
+					if (data) {
+						data = angular.fromJson(data).Item1;
+					}
+					return data;
+				}
+			},
 			'get': {
 				method: 'GET',
 				transformResponse: function (data) {
 					if (data) {
-						data = angular.fromJson(data);
+						data = angular.fromJson(data).Item2;
 					}
-					return data;
+					return { count: data };
 				}
 			},
 			'update': { method: 'PUT' }

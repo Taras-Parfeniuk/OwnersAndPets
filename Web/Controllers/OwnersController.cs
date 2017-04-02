@@ -24,34 +24,48 @@ namespace Web.Controllers
 
         [Route("")]
         [HttpGet]
-        public JsonResult<List<Owner>> Get()
+        public JsonResult<(List<Owner> owners, int pages)> Get()
         {
-            return Json(Owners.GetAll().ToList());
+            int per_page = 3;
+            List<Owner> items = Owners.GetRange(0, per_page);
+            items.ForEach(o => o.PetsCount = Pets.GetByOwnerId(o.Id).Count);
+            var ownersCount = Owners.GetAll().Count;
+            int pagesCount = ownersCount / per_page + (ownersCount % per_page == 0 ? 0 : 1);
+            (List<Owner> owners, int pages) result = (owners: items, pages: pagesCount);
+            return Json(result);
         }
 
         [Route("")]
         [HttpGet]
-        public JsonResult<List<Owner>> Get([FromUri] int page, [FromUri] int per_page)
+        public JsonResult<(List<Owner> owners, int pages)> Get([FromUri] int page, [FromUri] int per_page)
         {
             page--;
-            List<Owner> owners = Owners.GetRange(page * per_page, per_page);
-            owners.ForEach(o => o.PetsCount = Pets.GetByOwnerId(o.Id).Count);
-            return Json(owners);
+            List<Owner> items = Owners.GetRange(page * per_page, per_page);
+            items.ForEach(o => o.PetsCount = Pets.GetByOwnerId(o.Id).Count);
+            var ownersCount = Owners.GetAll().Count;
+            int pagesCount = ownersCount / per_page + (ownersCount % per_page == 0 ? 0 : 1);
+            (List<Owner> owners, int pages) result = (owners: items, pages: pagesCount);
+            return Json(result);
         }
 
         [HttpGet]
         [Route("{ownerId}")]
-        public JsonResult<List<Pet>> Get(string ownerId)
+        public JsonResult<(List<Pet> owners, int pages)> Get(string ownerId)
         {
-            return Json(Pets.GetByOwnerId(ownerId).ToList());
+            int per_page = 3;
+            var petsByOwner = Pets.GetByOwnerId(ownerId);
+            int pagesCount = petsByOwner.Count / per_page + (petsByOwner.Count % per_page == 0 ? 0 : 1);
+            return Json((petsByOwner.OrderBy(p => p.Id).Skip(0 * per_page).Take(per_page).ToList(), pagesCount));
         }
 
         [HttpGet]
         [Route("{ownerId}")]
-        public JsonResult<List<Pet>> Get(string ownerId, [FromUri] int page, [FromUri] int per_page)
+        public JsonResult<(List<Pet> pets, int pages)> Get(string ownerId, [FromUri] int page, [FromUri] int per_page)
         {
             page--;
-            return Json(Pets.GetByOwnerId(ownerId).OrderBy(p => p.Id).Skip(page * per_page).Take(per_page).ToList());
+            var petsByOwner = Pets.GetByOwnerId(ownerId);
+            int pagesCount = petsByOwner.Count / per_page + (petsByOwner.Count % per_page == 0 ? 0 : 1);
+            return Json((petsByOwner.OrderBy(p => p.Id).Skip(page * per_page).Take(per_page).ToList(), pagesCount));
         }
 
         // POST api/values
