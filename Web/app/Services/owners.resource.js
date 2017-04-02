@@ -21,9 +21,10 @@
 				method: 'GET',
 				transformResponse: function (data) {
 					if (data) {
-						data = angular.fromJson(data).Item2;
+						var pages = angular.fromJson(data).Item2;
+						var name = angular.fromJson(data).Item3;
 					}
-					return {count: data};
+					return { count: pages, owner: name };
 				}
 			},
 			'update': { method: 'PUT' }

@@ -10,7 +10,7 @@
 
 		ctrl.page = { ownerId: $stateParams.ownerId, id: $stateParams.page, per_page: $stateParams.per_page };
 		ctrl.pets = Pets.query({ ownerId: ctrl.page.ownerId, page: ctrl.page.id, per_page: ctrl.page.per_page });
-		ctrl.pages = Pets.get({ page: ctrl.page.id, per_page: ctrl.page.per_page });
+		ctrl.pages = Pets.get({ ownerId: ctrl.page.ownerId, page: ctrl.page.id, per_page: ctrl.page.per_page });
 		ctrl.save = save;
 		ctrl.remove = remove;
 
@@ -24,7 +24,7 @@
 
 		function onSuccess(result) {
 			ctrl.pets = Pets.query({ ownerId: ctrl.page.ownerId, page: ctrl.page.id, per_page: ctrl.page.per_page });
-			ctrl.pages = Pets.get({ page: ctrl.page.id, per_page: ctrl.page.per_page });
+			ctrl.pages = Pets.get({ ownerId: ctrl.page.ownerId, page: ctrl.page.id, per_page: ctrl.page.per_page });
 		}
 
 		function onError() {

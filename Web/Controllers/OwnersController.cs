@@ -21,7 +21,6 @@ namespace Web.Controllers
         private IPetsRepository _pets;
         private IPetsRepository Pets => _pets ?? (_pets = new PetsRepository());
 
-
         [Route("")]
         [HttpGet]
         public JsonResult<(List<Owner> owners, int pages)> Get()
@@ -50,22 +49,34 @@ namespace Web.Controllers
 
         [HttpGet]
         [Route("{ownerId}")]
-        public JsonResult<(List<Pet> owners, int pages)> Get(string ownerId)
+        public JsonResult<(List<Pet> owners, int pages, string owner)> Get(string ownerId)
         {
             int per_page = 3;
             var petsByOwner = Pets.GetByOwnerId(ownerId);
             int pagesCount = petsByOwner.Count / per_page + (petsByOwner.Count % per_page == 0 ? 0 : 1);
-            return Json((petsByOwner.OrderBy(p => p.Id).Skip(0 * per_page).Take(per_page).ToList(), pagesCount));
+            return Json(
+                (
+                petsByOwner.OrderBy(p => p.Id).Skip(0 * per_page).Take(per_page).ToList(),
+                pagesCount,
+                Owners.GetById(ownerId).Name
+                )
+                );
         }
 
         [HttpGet]
         [Route("{ownerId}")]
-        public JsonResult<(List<Pet> pets, int pages)> Get(string ownerId, [FromUri] int page, [FromUri] int per_page)
+        public JsonResult<(List<Pet> pets, int pages, string owner)> Get(string ownerId, [FromUri] int page, [FromUri] int per_page)
         {
             page--;
             var petsByOwner = Pets.GetByOwnerId(ownerId);
             int pagesCount = petsByOwner.Count / per_page + (petsByOwner.Count % per_page == 0 ? 0 : 1);
-            return Json((petsByOwner.OrderBy(p => p.Id).Skip(page * per_page).Take(per_page).ToList(), pagesCount));
+            return Json(
+                (
+                petsByOwner.OrderBy(p => p.Id).Skip(page * per_page).Take(per_page).ToList(),
+                pagesCount,
+                Owners.GetById(ownerId).Name
+                )
+                );
         }
 
         // POST api/values
@@ -118,7 +129,7 @@ namespace Web.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             var data = await request.Content.ReadAsStringAsync();
             Pet pet = JsonConvert.DeserializeObject<Pet>(data);
-            if(Pets.GetById(petId) == null)
+            if (Pets.GetById(petId) == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             pet.Id = ownerId;
             Pets.Update(new Pet { Id = petId, Name = pet.Name, OwnerId = ownerId });

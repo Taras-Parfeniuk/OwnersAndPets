@@ -19,7 +19,6 @@
 				}
 			})
 			.state('pets', {
-				parrent: 'owners',
 				url: 'Owners/{ownerId}',
 				templateUrl: 'app/Views/pets.html',
 				controller: 'PetsTableController',
